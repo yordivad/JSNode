@@ -1,1 +1,1 @@
-{"version":3,"file":"imodule.js","sourceRoot":"","sources":["imodule.ts"],"names":["Aurea","Aurea.IModule","Aurea.IModule.constructor"],"mappings":"AACA,IAAkB,KAAK,CAKtB;AALD,WAAkB,KAAK,EACvB,CAAC;IACGA;QAAAC;QAEAC,CAACA;QAADD,cAACA;IAADA,CAACA,AAFDD,IAECA;IAFYA,aAAOA,UAEnBA,CAAAA;AACLA,CAACA,EALiB,KAAK,GAAL,aAAK,KAAL,aAAK,QAKtB"}
+{"version":3,"file":"imodule.js","sourceRoot":"","sources":["imodule.ts"],"names":[],"mappings":"AAMC"}

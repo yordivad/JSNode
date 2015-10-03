@@ -1,35 +1,37 @@
 
-var path = require('path');
-var Yadda = require('yadda');
+/*globals featureFile, scenarios, steps */
 
-Yadda.plugins.mocha.StepLevelPlugin.init();
+module.exports = (function () {
 
-new Yadda.FeatureFileSearch('./test/features').each(function(file) {
-    featureFile(file, function(feature) {
+    "use strict";
 
+    var Yadda = require('yadda');
 
-        var libraries = require_feature_libraries(feature);
-      //  var library = require('../test/steps/core-steps.js');
+    Yadda.plugins.mocha.StepLevelPlugin.init();
 
-        var yadda = Yadda.createInstance(libraries, {scenary: {}});
+    function require_library(libraries, library) {
+        return libraries.concat(require('../test/features/step_definitions/' + library + '-steps.js'));
+    }
 
-        scenarios(feature.scenarios, function(scenario) {
-            steps(scenario.steps, function(step, done) {
-                yadda.run(step,done);
+    function require_feature_libraries(feature) {
+        return [feature.title].reduce(require_library, []);
+    }
+
+    new Yadda.FeatureFileSearch('./test/features').each(function (file) {
+
+        featureFile(file, function (feature) {
+
+            var libraries = require_feature_libraries(feature),
+                yadda = Yadda.createInstance(libraries, {scenary: {}});
+
+            scenarios(feature.scenarios, function (scenario) {
+                steps(scenario.steps, function (step, done) {
+                    yadda.run(step, done);
+                });
             });
+
         });
 
     });
 
-});
-
-function require_feature_libraries(feature) {
-    if(typeof  feature.annotations.libraries != "undefined") {
-        return feature.annotations.libraries.split(', ').reduce(require_library, []);
-    }
-    return [feature.title].reduce(require_library, []);
-}
-
-function require_library(libraries, library) {
-    return libraries.concat(require('../test/features/step_definitions/' + library + '-steps.js'));
-}
+}());

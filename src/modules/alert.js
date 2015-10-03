@@ -5,13 +5,15 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Aurea;
 (function (Aurea) {
-    var alert = (function (_super) {
-        __extends(alert, _super);
-        function alert() {
-            _super.apply(this, arguments);
+    "use strict";
+    var Alert = (function (_super) {
+        __extends(Alert, _super);
+        // private sandbox: Sandbox;
+        function Alert(sandbox) {
+            //  this.sanbox = sandbox;
         }
-        return alert;
-    })(sanbox);
-    Aurea.alert = alert;
+        return Alert;
+    })(IModule);
+    Aurea.Alert = Alert;
 })(Aurea || (Aurea = {}));
 //# sourceMappingURL=alert.js.map

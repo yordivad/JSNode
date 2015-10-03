@@ -1,9 +1,28 @@
 
 
+
+
 namespace Aurea {
-    export class alert extends sanbox{
 
+    "use strict";
 
+    export class Alert extends IModule {
+
+        // private sandbox: Sandbox;
+
+        constructor(sandbox) {
+          //  this.sanbox = sandbox;
+        }
+        /*
+        public create() {
+
+        }
+
+        public destroy() {
+
+        }
+
+        */
 
 
     }

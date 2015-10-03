@@ -8,12 +8,12 @@ module.exports = function (grunt) {
  
     // init required configurations for each task.
     grunt.initConfig({
- 
+
             pkg: grunt.file.readJSON('package.json'),
 
-            path : {
-              test : "test/steps",
-              src : "src"
+            path: {
+                test: "test/steps",
+                src: "src"
             },
 
             bowercopy: {
@@ -24,8 +24,7 @@ module.exports = function (grunt) {
                     options: {
                         destPrefix: 'test/js'
                     },
-                    files: {
-                    }
+                    files: {}
                 },
 
             },
@@ -52,25 +51,24 @@ module.exports = function (grunt) {
                     options: {
                         coverageFolder: 'coverageSpecial',
                         mask: '*.config.js',
-                        mochaOptions: ['--harmony','--async-only'], // any extra options
-                        istanbulOptions: ['--harmony','--handle-sigint']
+                        mochaOptions: ['--harmony', '--async-only'], // any extra options
+                        istanbulOptions: ['--harmony', '--handle-sigint']
                     }
                 },
 
                 coveralls: {
                     src: ['test'], // multiple folders also works
                     options: {
-                        coverage:true, // this will make the grunt.event.on('coverage') event listener to be triggered
+                        coverage: true, // this will make the grunt.event.on('coverage') event listener to be triggered
                         check: {
                             lines: 75,
                             statements: 75
                         },
                         root: './src', // define where the cover task should consider the root of libraries that are covered by tests
-                        reportFormats: ['teamcity','lcov']
+                        reportFormats: ['teamcity', 'lcov']
                     }
                 }
             },
-
 
             istanbul_check_coverage: {
                 default: {
@@ -83,8 +81,6 @@ module.exports = function (grunt) {
                     }
                 }
             },
-
-
 
             gherkin_report: {
                 my_project: {
@@ -99,9 +95,25 @@ module.exports = function (grunt) {
                         src: ['**/*.feature']
                     }]
                 },
+            },
+
+            tslint: {
+                options: {
+                    configuration: grunt.file.readJSON("tslint.json")
+                },
+                files: {
+                    src: ["src/**/*.ts"]
+                }
+            },
+
+            jslint: {
+                all: {
+                    src: ["test/**/*.js"],
+                    directives: {
+                        node: true
+                    }
+                }
             }
-
-
         }
     );
  
@@ -110,6 +122,8 @@ module.exports = function (grunt) {
     // Task: Build production version ready for deployment
     grunt.registerTask('build', [
         "browserify",
+        "tslint",
+        "jslint:all",
         "gherkin_report",
         "mocha_istanbul:coveralls",
         "mocha_istanbul:coverage"
