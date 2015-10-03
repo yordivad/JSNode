@@ -1,0 +1,12 @@
+{
+    "name": "aurea.js",
+    "version": "1.0.0",
+    "authors": ["Aurea Mobile"],
+    "description": "Aurea JS Framework.",
+    "private": true,
+    "dependencies": {
+        "requirejs": "2.1.10",
+        "jQuery":"1.9.1",
+        "alertify": "0.3.10"
+    }
+}
