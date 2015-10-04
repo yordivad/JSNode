@@ -1,29 +1,22 @@
 
+export class Sandbox {
 
-export namespace  Aurea {
+    private core: any;
 
-    "use strict";
-
-    export class Sandbox {
-
-        private core: Core;
-
-        constructor(core: Core) {
-            this.core = core;
-        }
-
-
-        public dom() {
-            return core.dom();
-        }
-
-        publish(message, args) {
-            this.core.publish(message, args);
-        }
-
-        subscribe(message, callback) {
-            this.core.subscribe(message, callback);
-        }
-
+    constructor(core: any) {
+        this.core = core;
     }
+
+    public dom() {
+        return this.core.dom();
+    }
+
+    publish(message, args) {
+        this.core.publish(message, args);
+    }
+
+    subscribe(message, callback) {
+        this.core.subscribe(message, callback);
+    }
+
 }

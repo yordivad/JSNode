@@ -23,3 +23,9 @@ Scenario: Test a dom
   Given a query Mock
   When execute a dom function
   Then verify queryMock is executed
+
+
+Scenario: register a module
+  Given a module
+  When register the module
+  Then a module is register;

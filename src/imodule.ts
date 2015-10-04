@@ -1,7 +1,6 @@
-export namespace Aurea {
 
-    export interface IModule {
-        create();
-        destroy();
-    }
+interface IModule {
+    create();
+    destroy();
 }
+

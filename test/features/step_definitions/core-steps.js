@@ -1,5 +1,3 @@
-
-
 module.exports = (function () {
 
     "use strict";
@@ -14,10 +12,18 @@ module.exports = (function () {
         fn = null,
         response = "",
         assert = require("chai").assert,
-        Core = require('../../../src/core').Aurea.Core,
+        Core = require('../../../src/core').Core,
         core = new Core(),
         wasExecuted = false,
-        queryMock = mocker.mock(require("jquery")(require('jsdom').jsdom().defaultView));
+        queryMock = mocker.mock(require("jquery")(require('jsdom').jsdom().defaultView)),
+        wasAlertMockExecuted = false,
+        alertMock = function () {
+            return {
+                create: function () {
+                    wasAlertMockExecuted = true;
+                }
+            };
+        };
 
     English.library(dictionary);
 
@@ -65,6 +71,19 @@ module.exports = (function () {
         .then('verify queryMock is executed', function (done) {
             var actual = this.scenary["result-dom"];
             assert.equal(actual, "object");
+            done();
+        })
+        .given('a module', function (done) {
+            this.scenary["module-item"] = alertMock;
+            done();
+        })
+        .when('register the module', function (done) {
+            core.register("alert", this.scenary["module-item"]);
+            core.startAll();
+            done();
+        })
+        .then('a module is register', function (done) {
+            assert.equal(wasAlertMockExecuted, true);
             done();
         });
 }());

@@ -1,19 +1,20 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var Aurea;
-(function (Aurea) {
-    "use strict";
-    var Alert = (function (_super) {
-        __extends(Alert, _super);
-        // private sandbox: Sandbox;
-        function Alert(sandbox) {
-            //  this.sanbox = sandbox;
-        }
-        return Alert;
-    })(IModule);
-    Aurea.Alert = Alert;
-})(Aurea || (Aurea = {}));
+/// <reference path="../sandbox.ts" />
+/// <reference path="../../typings/requirejs/require.d.ts" />
+/// <reference path="../imodule.ts" />
+var Alert = (function () {
+    function Alert(sandbox) {
+        this.sandbox = sandbox;
+    }
+    Alert.prototype.create = function () {
+        var _this = this;
+        this.handler = require("../libs/sweetalert");
+        this.sandbox.subscribe("alert", function () {
+            _this.handler.swal("Here's a message!");
+        });
+    };
+    Alert.prototype.destroy = function () {
+    };
+    return Alert;
+})();
+exports.Alert = Alert;
 //# sourceMappingURL=alert.js.map

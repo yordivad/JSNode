@@ -1,29 +1,27 @@
+/// <reference path="../sandbox.ts" />
+/// <reference path="../../typings/requirejs/require.d.ts" />
+/// <reference path="../imodule.ts" />
 
+export class Alert implements IModule {
 
+    private handler: any;
 
+    private sandbox: any;
 
-namespace Aurea {
+    constructor(sandbox) {
+        this.sandbox = sandbox;
+    }
 
-    "use strict";
+    public create() {
+        this.handler = require("../libs/sweetalert");
+        this.sandbox.subscribe("alert", () => {
+            this.handler.swal("Here's a message!");
+        });
+    }
 
-    export class Alert extends IModule {
-
-        // private sandbox: Sandbox;
-
-        constructor(sandbox) {
-          //  this.sanbox = sandbox;
-        }
-        /*
-        public create() {
-
-        }
-
-        public destroy() {
-
-        }
-
-        */
-
-
+    public destroy() {
     }
 }
+
+
+

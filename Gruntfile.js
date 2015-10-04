@@ -11,28 +11,41 @@ module.exports = function (grunt) {
 
             pkg: grunt.file.readJSON('package.json'),
 
-            path: {
-                test: "test/steps",
-                src: "src"
+            clean : {
+                dist: ["dist"],
+                lib: ["src/libs"]
             },
 
             bowercopy: {
+
                 options: {
-                    clean: true
-                },
-                test: {
-                    options: {
-                        destPrefix: 'test/js'
-                    },
-                    files: {}
+                  clean: true
                 },
 
+                libs: {
+                    options: {
+                        destPrefix: 'src/libs'
+                    },
+                    files: {
+                        'jquery.js': 'jquery/jquery.js',
+                        'require.js': 'requirejs/require.js',
+                        'sweetalert.js': "sweetalert/dist/sweetalert-dev.js"
+                    }
+                },
             },
 
-            browserify: {
-                dist: {
-                    files: {
-                        'web/main.js': ['src/**/*.js']
+
+
+            typescript: {
+                base: {
+                    src: ['src/**/*.ts'],
+                    dest: 'dist/',
+                    options: {
+                        module: 'amd', //or commonjs
+                        target: 'es5', //or es3
+                        basePath: 'src',
+                        sourceMap: false,
+                        declaration: false
                     }
                 }
             },
@@ -121,13 +134,13 @@ module.exports = function (grunt) {
  
     // Task: Build production version ready for deployment
     grunt.registerTask('build', [
-        "browserify",
+        "typescript",
+        "bowercopy",
         "tslint",
         "jslint:all",
         "gherkin_report",
         "mocha_istanbul:coveralls",
         "mocha_istanbul:coverage"
-
     ]);
 
     grunt.registerTask('default', ['build']);
