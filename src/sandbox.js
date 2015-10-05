@@ -5,6 +5,9 @@ var Sandbox = (function () {
     Sandbox.prototype.dom = function () {
         return this.core.dom();
     };
+    Sandbox.prototype.utils = function () {
+        return this.core.utils();
+    };
     Sandbox.prototype.publish = function (message, args) {
         this.core.publish(message, args);
     };
@@ -14,4 +17,3 @@ var Sandbox = (function () {
     return Sandbox;
 })();
 exports.Sandbox = Sandbox;
-//# sourceMappingURL=sandbox.js.map

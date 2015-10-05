@@ -4,12 +4,12 @@
 var Alert = (function () {
     function Alert(sandbox) {
         this.sandbox = sandbox;
+        this.handler = require("./libs/sweetalert");
     }
     Alert.prototype.create = function () {
         var _this = this;
-        this.handler = require("../libs/sweetalert");
         this.sandbox.subscribe("alert", function () {
-            _this.handler.swal("Here's a message!");
+            _this.handler("Good job!", "You clicked the button!", "success");
         });
     };
     Alert.prototype.destroy = function () {
@@ -17,4 +17,3 @@ var Alert = (function () {
     return Alert;
 })();
 exports.Alert = Alert;
-//# sourceMappingURL=alert.js.map

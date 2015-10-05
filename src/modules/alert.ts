@@ -2,20 +2,22 @@
 /// <reference path="../../typings/requirejs/require.d.ts" />
 /// <reference path="../imodule.ts" />
 
+
 export class Alert implements IModule {
 
     private handler: any;
+
 
     private sandbox: any;
 
     constructor(sandbox) {
         this.sandbox = sandbox;
+        this.handler = require("./libs/sweetalert");
     }
 
     public create() {
-        this.handler = require("../libs/sweetalert");
         this.sandbox.subscribe("alert", () => {
-            this.handler.swal("Here's a message!");
+            this.handler("Good job!", "You clicked the button!", "success");
         });
     }
 

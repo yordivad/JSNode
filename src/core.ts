@@ -4,39 +4,40 @@
 /// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="sandbox.ts" />
 
+
 export class Core {
 
     private cache: any;
-    private query: any;
+
     private modules: any;
+
 
     private domWrapper = {
         find: (selector) => {
-            return this.query.find(selector);
+            return $(selector);
         },
         wrap: (element) => {
-            return this.query.find(element);
+            return $(element);
         }
     };
 
     private  utilitiesWrapper = {
         each: () => {
-            return this.query.each;
+            return $.each;
         },
         grep: () => {
-            return this.query.grep;
+            return $.grep;
         },
         inArray: () => {
-            return this.query.inArray;
+            return $.inArray;
         },
         merge: () => {
-            return this.query.merge;
+            return $.merge;
         }
     };
 
     constructor() {
         this.cache = [];
-        this.query = require("jQuery")(require("jsdom").jsdom().defaultView);
         this.modules = [];
     }
 
@@ -44,12 +45,15 @@ export class Core {
         return this.domWrapper;
     }
 
-    public utilities() {
-        return this.utilitiesWrapper;
+    public route(path: string) {
+        if (typeof location === "undefined") {
+            location = require("jsdom").jsdom().nodeLocation;
+        }
+        $(location).attr("href", path);
     }
 
-    public setQuery(query) {
-        this.query = query;
+    public utils() {
+        return this.utilitiesWrapper;
     }
 
     public register(moduleId, creator, options) {
@@ -108,6 +112,12 @@ export class Core {
             this.cache[message][i].apply(this, args);
         }
     }
+
+
+    public setQuery(query) {
+        $ = query;
+    }
+
 
     /*
      public unsubscribe() {

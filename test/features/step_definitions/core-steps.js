@@ -59,9 +59,8 @@ module.exports = (function () {
             done();
         })
         .given('a query Mock', function (done) {
-
             mocker.when(queryMock).find("").thenReturn("object");
-            core.setQuery(queryMock);
+            core.setQuery(function () { return "object"; });
             done();
         })
         .when('execute a dom function', function (done) {
@@ -85,5 +84,30 @@ module.exports = (function () {
         .then('a module is register', function (done) {
             assert.equal(wasAlertMockExecuted, true);
             done();
+        })
+        .given('a path and mock object', function (done) {
+
+            /// this is other way to verify that funtion was executed
+            /*
+            var _this = this;
+            mocker.when(queryMock).attr("href").then(function() {
+                _this.scenary["route-test"] = true;
+            });
+            */
+            mocker.when(queryMock).attr("href");
+            core.setQuery(function () { return queryMock; });
+            done();
+        })
+        .when('execute route', function (done) {
+            core.route("#new");
+            done();
+        })
+        .then('a mock is executed', function (done) {
+            /// this is other way to verify that funtion was executed
+            //var routeWasExecuted = this.scenary["route-test"];
+            //assert.equal(routeWasExecuted, true);
+            mocker.verify(queryMock, mocker.Verifiers.times(1)).attr("href");
+            done();
         });
+
 }());

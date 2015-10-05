@@ -11,37 +11,55 @@ module.exports = function (grunt) {
 
             pkg: grunt.file.readJSON('package.json'),
 
-            clean : {
-                dist: ["dist"],
-                lib: ["src/libs"]
-            },
-
             bowercopy: {
-
-                options: {
-                  clean: true
-                },
-
                 libs: {
                     options: {
                         destPrefix: 'src/libs'
                     },
                     files: {
                         'jquery.js': 'jquery/jquery.js',
-                        'require.js': 'requirejs/require.js',
                         'sweetalert.js': "sweetalert/dist/sweetalert-dev.js"
                     }
                 },
             },
 
+            tslint: {
+                options: {
+                    configuration: grunt.file.readJSON("tslint.json")
+                },
+                files: {
+                    src: ["src/**/*.ts"]
+                }
+            },
 
+            jslint: {
+                all: {
+                    src: ["test/**/*.js"],
+                    directives: {
+                        node: true
+                    }
+                }
+            },
+
+            copy: {
+                options:{
+                    punctuation: ''
+                },
+                main: {
+                    files: [
+                        {expand: true, cwd: "dist", src: ['**'], dest: 'web/scripts/',filter: 'isFile' },
+                        {expand: true, cwd: "src/libs/", src: ['**'], dest: 'web/scripts/libs',filter: 'isFile'},
+                        {expand: true, cwd: "standalone", src: ['**'], dest: 'web/scripts/',filter: 'isFile' }
+                    ],
+                },
+            },
 
             typescript: {
                 base: {
                     src: ['src/**/*.ts'],
                     dest: 'dist/',
                     options: {
-                        module: 'amd', //or commonjs
+                        module: 'commonjs', //or commonjs
                         target: 'es5', //or es3
                         basePath: 'src',
                         sourceMap: false,
@@ -95,38 +113,6 @@ module.exports = function (grunt) {
                 }
             },
 
-            gherkin_report: {
-                my_project: {
-                    // Target-specific file lists and/or options go here.
-                    options: {
-                        title: 'My project\'s features',
-                        subtitle: 'Generated on ' + (new Date()).toISOString() + ', version: ' + grunt.option('versionNumber') || 'unknown',
-                        destination: 'reports/report.html'
-                    },
-                    files: [{
-                        cwd: 'src/test/features',
-                        src: ['**/*.feature']
-                    }]
-                },
-            },
-
-            tslint: {
-                options: {
-                    configuration: grunt.file.readJSON("tslint.json")
-                },
-                files: {
-                    src: ["src/**/*.ts"]
-                }
-            },
-
-            jslint: {
-                all: {
-                    src: ["test/**/*.js"],
-                    directives: {
-                        node: true
-                    }
-                }
-            }
         }
     );
  
@@ -134,13 +120,14 @@ module.exports = function (grunt) {
  
     // Task: Build production version ready for deployment
     grunt.registerTask('build', [
-        "typescript",
         "bowercopy",
         "tslint",
         "jslint:all",
-        "gherkin_report",
+        "typescript",
+        "copy",
         "mocha_istanbul:coveralls",
         "mocha_istanbul:coverage"
+
     ]);
 
     grunt.registerTask('default', ['build']);

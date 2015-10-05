@@ -29,3 +29,9 @@ Scenario: register a module
   Given a module
   When register the module
   Then a module is register;
+
+
+  Scenario: Test a path
+    Given a path and mock object
+    When execute route
+    Then a mock is executed

@@ -3,41 +3,42 @@
 /// <reference path="sandbox.ts" />
 var Core = (function () {
     function Core() {
-        var _this = this;
         this.domWrapper = {
             find: function (selector) {
-                return _this.query.find(selector);
+                return $(selector);
             },
             wrap: function (element) {
-                return _this.query.find(element);
+                return $(element);
             }
         };
         this.utilitiesWrapper = {
             each: function () {
-                return _this.query.each;
+                return $.each;
             },
             grep: function () {
-                return _this.query.grep;
+                return $.grep;
             },
             inArray: function () {
-                return _this.query.inArray;
+                return $.inArray;
             },
             merge: function () {
-                return _this.query.merge;
+                return $.merge;
             }
         };
         this.cache = [];
-        this.query = require("jQuery")(require("jsdom").jsdom().defaultView);
         this.modules = [];
     }
     Core.prototype.dom = function () {
         return this.domWrapper;
     };
-    Core.prototype.utilities = function () {
-        return this.utilitiesWrapper;
+    Core.prototype.route = function (path) {
+        if (typeof location === "undefined") {
+            location = require("jsdom").jsdom().nodeLocation;
+        }
+        $(location).attr("href", path);
     };
-    Core.prototype.setQuery = function (query) {
-        this.query = query;
+    Core.prototype.utils = function () {
+        return this.utilitiesWrapper;
     };
     Core.prototype.register = function (moduleId, creator, options) {
         this.modules[moduleId] = {
@@ -88,7 +89,9 @@ var Core = (function () {
             this.cache[message][i].apply(this, args);
         }
     };
+    Core.prototype.setQuery = function (query) {
+        $ = query;
+    };
     return Core;
 })();
 exports.Core = Core;
-//# sourceMappingURL=core.js.map
