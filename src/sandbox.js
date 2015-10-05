@@ -8,6 +8,9 @@ var Sandbox = (function () {
     Sandbox.prototype.utils = function () {
         return this.core.utils();
     };
+    Sandbox.prototype.alert = function (item) {
+        this.core.alert().show(item);
+    };
     Sandbox.prototype.publish = function (message, args) {
         this.core.publish(message, args);
     };

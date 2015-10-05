@@ -11,7 +11,6 @@ export class Core {
 
     private modules: any;
 
-
     private domWrapper = {
         find: (selector) => {
             return $(selector);
@@ -36,6 +35,13 @@ export class Core {
         }
     };
 
+    private  alertWrapper = {
+        show: (item: any) => {
+            var provider = require("./libs/sweetalert");
+            provider(item.title, item.message, "success");
+        }
+    };
+
     constructor() {
         this.cache = [];
         this.modules = [];
@@ -43,6 +49,10 @@ export class Core {
 
     public dom() {
         return this.domWrapper;
+    }
+
+    public alert() {
+        return this.alertWrapper;
     }
 
     public route(path: string) {
@@ -112,7 +122,6 @@ export class Core {
             this.cache[message][i].apply(this, args);
         }
     }
-
 
     public setQuery(query) {
         $ = query;

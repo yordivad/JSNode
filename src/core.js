@@ -25,11 +25,20 @@ var Core = (function () {
                 return $.merge;
             }
         };
+        this.alertWrapper = {
+            show: function (item) {
+                var provider = require("./libs/sweetalert");
+                provider(item.title, item.message, "success");
+            }
+        };
         this.cache = [];
         this.modules = [];
     }
     Core.prototype.dom = function () {
         return this.domWrapper;
+    };
+    Core.prototype.alert = function () {
+        return this.alertWrapper;
     };
     Core.prototype.route = function (path) {
         if (typeof location === "undefined") {

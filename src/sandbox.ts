@@ -15,6 +15,10 @@ export class Sandbox {
         return this.core.utils();
     }
 
+    public alert(item: any) {
+         this.core.alert().show(item);
+    }
+
     publish(message, args) {
         this.core.publish(message, args);
     }

@@ -4,12 +4,11 @@
 var Alert = (function () {
     function Alert(sandbox) {
         this.sandbox = sandbox;
-        this.handler = require("./libs/sweetalert");
     }
     Alert.prototype.create = function () {
         var _this = this;
         this.sandbox.subscribe("alert", function () {
-            _this.handler("Good job!", "You clicked the button!", "success");
+            _this.sandbox.alert({ message: "Good Job", title: "SCM Architecture" });
         });
     };
     Alert.prototype.destroy = function () {
