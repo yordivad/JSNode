@@ -1,21 +1,22 @@
 /// <reference path="../sandbox.ts" />
 /// <reference path="../imodule.ts" />
 
-export class FirstLoad implements IModule {
+namespace Aurea {
 
-    private sandbox: any;
+    export class FirstLoad implements IModule {
 
-    constructor(sandbox: any) {
-        this.sandbox = sandbox;
+        private sandbox: any;
+
+        constructor(sandbox: any) {
+            this.sandbox = sandbox;
+        }
+
+        public create() {
+            this.sandbox.publish("alert", "some text");
+            console.log("a");
+        }
+
+        public  destroy() {
+        }
     }
-
-    public create() {
-        this.sandbox.publish("alert", "some text");
-    }
-
-    public  destroy() {
-
-    }
-
 }
-

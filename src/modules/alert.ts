@@ -2,24 +2,24 @@
 /// <reference path="../../typings/requirejs/require.d.ts" />
 /// <reference path="../imodule.ts" />
 
+namespace Aurea {
 
-export class Alert implements IModule {
+    export class Alert implements IModule {
 
+        private sandbox: any;
 
-    private sandbox: any;
+        constructor(sandbox) {
+            this.sandbox = sandbox;
+        }
 
-    constructor(sandbox) {
-        this.sandbox = sandbox;
+        public create() {
+            this.sandbox.subscribe("alert", () => {
+                this.sandbox.alert({message: "Good Job", title: "SCM  Architecture"});
+            });
+        }
 
-    }
-
-    public create() {
-        this.sandbox.subscribe("alert", () => {
-          this.sandbox.alert({message: "Good Job", title: "SCM Architecture"});
-        });
-    }
-
-    public destroy() {
+        public destroy() {
+        }
     }
 }
 

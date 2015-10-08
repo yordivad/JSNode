@@ -12,7 +12,7 @@ module.exports = (function () {
         fn = null,
         response = "",
         assert = require("chai").assert,
-        Core = require('../../../src/core').Core,
+        Core = require('../../../src/core').Aurea.Core,
         core = new Core(),
         wasExecuted = false,
         queryMock = mocker.mock(require("jquery")(require('jsdom').jsdom().defaultView)),
@@ -86,14 +86,6 @@ module.exports = (function () {
             done();
         })
         .given('a path and mock object', function (done) {
-
-            /// this is other way to verify that funtion was executed
-            /*
-            var _this = this;
-            mocker.when(queryMock).attr("href").then(function() {
-                _this.scenary["route-test"] = true;
-            });
-            */
             mocker.when(queryMock).attr("href");
             core.setQuery(function () { return queryMock; });
             done();
@@ -103,9 +95,6 @@ module.exports = (function () {
             done();
         })
         .then('a mock is executed', function (done) {
-            /// this is other way to verify that funtion was executed
-            //var routeWasExecuted = this.scenary["route-test"];
-            //assert.equal(routeWasExecuted, true);
             mocker.verify(queryMock, mocker.Verifiers.times(1)).attr("href");
             done();
         });

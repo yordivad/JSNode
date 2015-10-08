@@ -10,7 +10,7 @@ module.exports = (function () {
     Yadda.plugins.mocha.StepLevelPlugin.init();
 
     function require_library(libraries, library) {
-        return libraries.concat(require('../test/features/step_definitions/' + library + '-steps.js'));
+        return libraries.concat(require('../features/step_definitions/' + library + '-steps.js'));
     }
 
     function require_feature_libraries(feature) {

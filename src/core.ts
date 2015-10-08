@@ -1,137 +1,133 @@
+/// <reference path="_all.ts" />
 
+namespace Aurea {
 
-/// <reference path="../typings/requirejs/require.d.ts" />
-/// <reference path="../typings/jquery/jquery.d.ts" />
-/// <reference path="sandbox.ts" />
+    export class Core {
 
+        private cache: any;
 
-export class Core {
+        private modules: any;
 
-    private cache: any;
-
-    private modules: any;
-
-    private domWrapper = {
-        find: (selector) => {
-            return $(selector);
-        },
-        wrap: (element) => {
-            return $(element);
-        }
-    };
-
-    private  utilitiesWrapper = {
-        each: () => {
-            return $.each;
-        },
-        grep: () => {
-            return $.grep;
-        },
-        inArray: () => {
-            return $.inArray;
-        },
-        merge: () => {
-            return $.merge;
-        }
-    };
-
-    private  alertWrapper = {
-        show: (item: any) => {
-            var provider = require("./libs/sweetalert");
-            provider(item.title, item.message, "success");
-        }
-    };
-
-    constructor() {
-        this.cache = [];
-        this.modules = [];
-    }
-
-    public dom() {
-        return this.domWrapper;
-    }
-
-    public alert() {
-        return this.alertWrapper;
-    }
-
-    public route(path: string) {
-        if (typeof location === "undefined") {
-            location = require("jsdom").jsdom().nodeLocation;
-        }
-        $(location).attr("href", path);
-    }
-
-    public utils() {
-        return this.utilitiesWrapper;
-    }
-
-    public register(moduleId, creator, options) {
-        this.modules[moduleId] = {
-            creator: creator,
-            instance: null,
-            options: options || {}
+        private domWrapper = {
+            find: (selector) => {
+                return $(selector);
+            },
+            wrap: (element) => {
+                return $(element);
+            }
         };
-    }
 
-    public start(moduleId) {
-        this.modules[moduleId].instance = new (this.modules[moduleId].creator)(new (require("./sandbox").Sandbox)(this), this.modules[moduleId].options);
-        this.modules[moduleId].instance.create();
-    }
+        private  utilitiesWrapper = {
+            each: () => {
+                return $.each;
+            },
+            grep: () => {
+                return $.grep;
+            },
+            inArray: () => {
+                return $.inArray;
+            },
+            merge: () => {
+                return $.merge;
+            }
+        };
 
-    public stop(moduleId) {
-        var module = this.modules[moduleId];
-        if (module.instance) {
-            module.instance.destroy();
-            module.instance = null;
+        private  alertWrapper = {
+            show: (item: any) => {
+                var provider = require("./libs/sweetalert");
+                provider(item.title, item.message, "success");
+            }
+        };
+
+        constructor() {
+            this.cache = [];
+            this.modules = [];
         }
-    }
 
-    public startAll() {
-        for (var moduleId in this.modules) {
-            if (this.modules.hasOwnProperty(moduleId)) {
-                this.start(moduleId);
+        public dom() {
+            return this.domWrapper;
+        }
+
+        public alert() {
+            return this.alertWrapper;
+        }
+
+        public route(path: string) {
+            if (typeof location === "undefined") {
+                location = require("jsdom").jsdom().nodeLocation;
+            }
+            $(location).attr("href", path);
+        }
+
+        public utils() {
+            return this.utilitiesWrapper;
+        }
+
+        public register(moduleId, creator, options) {
+            this.modules[moduleId] = {
+                creator: creator,
+                instance: null,
+                options: options || {}
+            };
+        }
+
+        public start(moduleId) {
+            this.modules[moduleId].instance = new (this.modules[moduleId].creator)(new Aurea.Sandbox(this), this.modules[moduleId].options);
+            this.modules[moduleId].instance.create();
+        }
+
+        public stop(moduleId) {
+            var module = this.modules[moduleId];
+            if (module.instance) {
+                module.instance.destroy();
+                module.instance = null;
             }
         }
-    }
 
-    public stopAll() {
-        for (var moduleId in this.modules) {
-            if (this.modules.hasOwnProperty(moduleId)) {
-                this.stop(moduleId);
+        public startAll() {
+            for (var moduleId in this.modules) {
+                if (this.modules.hasOwnProperty(moduleId)) {
+                    this.start(moduleId);
+                }
             }
         }
-    }
 
-    public subscribe(message, callback) {
-        if (!this.cache[message]) {
-            this.cache[message] = [];
-        }
-        this.cache[message].push(callback);
-    }
-
-    public publish(message, args) {
-
-        for (var i = 0; i < this.cache[message].length; i++) {
-            if (typeof  args === "undefined") {
-                args = [];
+        public stopAll() {
+            for (var moduleId in this.modules) {
+                if (this.modules.hasOwnProperty(moduleId)) {
+                    this.stop(moduleId);
+                }
             }
-            if (!(args instanceof Array)) {
-                args = [args];
-            }
-            this.cache[message][i].apply(this, args);
         }
+
+        public subscribe(message, callback) {
+            if (!this.cache[message]) {
+                this.cache[message] = [];
+            }
+            this.cache[message].push(callback);
+        }
+
+        public publish(message, args) {
+
+            for (var i = 0; i < this.cache[message].length; i++) {
+                if (typeof  args === "undefined") {
+                    args = [];
+                }
+                if (!(args instanceof Array)) {
+                    args = [args];
+                }
+                this.cache[message][i].apply(this, args);
+            }
+        }
+
+        public setQuery(query) {
+            $ = query;
+        }
+
+        /*
+         public unsubscribe() {
+
+         }
+         */
     }
-
-    public setQuery(query) {
-        $ = query;
-    }
-
-
-    /*
-     public unsubscribe() {
-
-     }
-     */
 }
-
