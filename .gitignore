@@ -3,7 +3,7 @@ src/**/*.js
 web/debug/
 web/prod/
 library/
-node_modules/ts
+node_modules/
 typings/
 coverage/
 dist/
