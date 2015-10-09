@@ -2,6 +2,8 @@
 /// <reference path="../typings/requirejs/require.d.ts" />
 /// <reference path="../typings/jquery/jquery.d.ts" />
 /// <reference path="../typings/angularjs/angular.d.ts" />
+/// <reference path="../typings/sweetalert/sweetalert.d.ts" />
+
 
 /// <reference path='modules/controllers/usercontroller.ts' />
 /// <reference path='modules/interfaces/iuserstorage.ts' />

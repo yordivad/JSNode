@@ -2,17 +2,20 @@
 /// <reference path="../../typings/requirejs/require.d.ts" />
 /// <reference path="../core.ts" />
 
- export class AlertApp {
+namespace Aurea {
 
-     core: any;
+    export class AlertApp {
 
-     constructor() {
-        this.core = new (require("./core").Core)();
-     }
+        core: any;
 
-     public initialize() {
-         this.core.register("alert", require("./modules/alert").Alert);
-         this.core.register("firstload", require("./modules/firstload").FirstLoad);
-         this.core.startAll();
-     }
- }
+        constructor() {
+            this.core = new (require("./core").Core)();
+        }
+
+        public initialize() {
+            this.core.register("alert", require("./modules/alert").Alert);
+            this.core.register("firstload", require("./modules/firstload").FirstLoad);
+            this.core.startAll();
+        }
+    }
+}

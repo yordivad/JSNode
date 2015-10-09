@@ -87,7 +87,7 @@ module.exports = function (grunt) {
 
             concat: {
                 dist: {
-                    src: ['obj/core.js', 'obj/sandbox.js','obj/app.js',  'obj/init/**/*.js','obj/modules/**/*.js'],
+                    src: ['obj/core.js', 'obj/sandbox.js','obj/init/**/*.js','obj/modules/**/*.js','obj/app.js'],
                     dest: 'dist/source.js'
                 },
                 libs: {
@@ -165,7 +165,7 @@ module.exports = function (grunt) {
 
             watch: {
                 scripts: {
-                    files: ['src/**/*.ts',"test/features/**/*.js"],
+                    files: ['src/**/*.ts',"test/features/**/*.js","web/index.html"],
                     tasks: [
                         "tslint",
                         "jslint:all",
@@ -178,6 +178,14 @@ module.exports = function (grunt) {
                         spawn: false,
                     },
                 },
+                webs: {
+                    files:["web/index.html"],
+                    tasks: [
+                        "copy:debug",
+                        "copy:prod",
+                        "injector"
+                    ]
+                }
             },
 
             uglify: {

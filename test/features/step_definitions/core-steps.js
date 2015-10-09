@@ -1,9 +1,12 @@
+
+
 module.exports = (function () {
 
     "use strict";
 
     var mocker = require("jsmockito").JsMockito,
         yadda = require('yadda'),
+        helper = require("../../test.helper"),
         English = yadda.localisation.English,
         Dictionary = yadda.Dictionary,
         dictionary = new Dictionary()
@@ -12,11 +15,15 @@ module.exports = (function () {
         fn = null,
         response = "",
         assert = require("chai").assert,
-        Core = require('../../../src/core').Aurea.Core,
-        core = new Core(),
         wasExecuted = false,
-        queryMock = mocker.mock(require("jquery")(require('jsdom').jsdom().defaultView)),
+        jsdom = require('jsdom').jsdom(),
+        window = jsdom.defaultView,
+        location =  jsdom.nodeLocation,
+        queryMock = mocker.mock(require("jquery")(window)),
         wasAlertMockExecuted = false,
+        Core = require('../../../src/core').Aurea.Core,
+        Sandbox = require('../../../src/sandbox').Aurea.Sandbox,
+        core = new Core(Sandbox, location),
         alertMock = function () {
             return {
                 create: function () {
@@ -24,6 +31,8 @@ module.exports = (function () {
                 }
             };
         };
+
+    helper.init();
 
     English.library(dictionary);
 

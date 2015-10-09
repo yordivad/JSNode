@@ -1,18 +1,14 @@
-var jsdom = require('jsdom').jsdom;
-global.document = jsdom('<html><head><script></script></head><body></body></html>');
-global.window = global.document.parentWindow;
-var window = global.window;
-//global.navigator = window.navigator;
+var location = null;
 
-window = function() {
-    "use strict";
+module.exports = (function () {
     return {
-        angular : {},
-        location: function() {
-            return {
-                href : ""
-            }
+        init: function () {
+            var jsdom = require('jsdom').jsdom;
+            global.document = jsdom('<html><head><script></script></head><body></body></html>');
+            global.window = global.document.parentWindow;
+            var window = global.document.defaultView;
+            global.navigator = window.navigator;
+            location = jsdom().nodeLocation;
         }
     }
-}
-
+}());

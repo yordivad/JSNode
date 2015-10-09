@@ -1,10 +1,9 @@
 /// <reference path="../../_all.ts" />
  namespace Aurea {
 
-    export  function UserFocus() {
+    export  function userFocus() {
         return {
 
         };
     }
-
 }

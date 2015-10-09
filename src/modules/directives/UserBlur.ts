@@ -1,9 +1,10 @@
 /// <reference path="../../_all.ts" />
 
  namespace Aurea {
-    export  function UserBlur() {
+    export  function userBlur() {
         return {
         };
     }
 }
+
 

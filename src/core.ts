@@ -34,14 +34,18 @@ namespace Aurea {
 
         private  alertWrapper = {
             show: (item: any) => {
-                var provider = require("./libs/sweetalert");
-                provider(item.title, item.message, "success");
+                swal(item.title, item.message, "success");
             }
         };
 
-        constructor() {
+        private Sandbox : any;
+        private location : any;
+
+        constructor(Sanbox: any, location: any) {
             this.cache = [];
             this.modules = [];
+            this.Sandbox = Sanbox;
+            this.location = location;
         }
 
         public dom() {
@@ -53,10 +57,7 @@ namespace Aurea {
         }
 
         public route(path: string) {
-            if (typeof location === "undefined") {
-                location = require("jsdom").jsdom().nodeLocation;
-            }
-            $(location).attr("href", path);
+            $(this.location).attr("href", path);
         }
 
         public utils() {
@@ -72,7 +73,7 @@ namespace Aurea {
         }
 
         public start(moduleId) {
-            this.modules[moduleId].instance = new (this.modules[moduleId].creator)(new Aurea.Sandbox(this), this.modules[moduleId].options);
+            this.modules[moduleId].instance = new (this.modules[moduleId].creator)(new this.Sandbox(this), this.modules[moduleId].options);
             this.modules[moduleId].instance.create();
         }
 

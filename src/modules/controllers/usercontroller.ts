@@ -2,12 +2,13 @@
 
 
 namespace Aurea {
+
     export class UserController {
 
         public  static $inject = [
             "$scope",
             "$location",
-            "userstorage",
+            "Aurea.UserService",
             "filterFilter"
         ];
 
@@ -59,7 +60,6 @@ namespace Aurea {
             this.$scope.editedUser = user;
         }
 
-
         doneEditing(user: User) {
             this.$scope.editedUser = null;
 
@@ -68,5 +68,6 @@ namespace Aurea {
         removeUser(user: User) {
             this.users.splice(this.users.indexOf(user), 1);
         }
+
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app" data-framework="typescript">
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
@@ -12,11 +12,47 @@
 
 </head>
 <body>
+    <section ng-controller="Aurea.UserController">
 
-<div>
-    Hello World!!!;
-</div>
+        <header >
+            <h1>Users</h1>
+            <form ng-submit="vm.addUser()">
+                <input placeholder="write a new user" ng-model="newUser" autofocus>
+            </form>
+        </header>
 
+        <section  ng-show="users.length" ng-cloak>
+            <ul>
+                <li ng-repeat="user in users | filter:statusFilter track by $index" >
 
+                    <div>
+                        <input type="checkbox"> <label ng-dblclick="vm.editUser(user)">{{user.name}}</label>
+                    </div>
+
+                    <form ng-submit="vm.doneEditing(user)">
+                        <input ng-model="user.name">
+                    </form>
+
+                </li>
+            </ul>
+        </section>
+
+        <footer ng-show="users.length" ng-cloak>
+            <span><strong>{{remainingCount}}</strong>
+                <ng-pluralize count="remainingCount" when="{ one: 'item left', other: 'items left' }"></ng-pluralize>
+            </span>
+            <ul class="filters">
+                <li>
+                    <a ng-class="{selected: location.path() == '/'} " href="#/">All</a>
+                </li>
+                <li>
+                    <a ng-class="{selected: location.path() == '/active'}" href="#/active">Active</a>
+                </li>
+            </ul>
+        </footer>
+
+    </section>
 </body>
+
+
 </html>

@@ -1,7 +1,8 @@
 /// <reference path="_all.ts" />
-
-interface IModule {
-    create();
-    destroy();
+namespace Aurea {
+    export interface IModule {
+        create();
+        destroy();
+    }
 }
 
